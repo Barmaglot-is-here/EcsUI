@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+
+<root>
+	<resources>
+		<style path="Styles\Style1.xml"/>
+	</resources>
+	
+	<text position_x="300" position_y="000" style="text_style_1">
+		Какой-то текст 22
+	</text>
+	<container position_y="200">
+		<container position_x="50">
+			<text position_x="100" position_y="-100">
+				Текст в контейнере
+			</text>
+		</container>
+		<image 
+			sprite="Content\photo_2024-10-20_19-24-47.jpg"
+			width="300"
+			height="300"/>
+	</container>
+</root>

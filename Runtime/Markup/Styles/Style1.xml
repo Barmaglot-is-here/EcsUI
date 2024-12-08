@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+
+<stylesheet>
+	<text
+		name="text_style_1"
+		font="Comic Sans"
+		color="124, 10, 225, 1"/>
+</stylesheet>
