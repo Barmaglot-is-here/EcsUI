@@ -1,5 +1,4 @@
 ﻿using Leopotam.EcsLite;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace EcsUI;
@@ -24,7 +23,7 @@ public class DarwTextSystem : IEcsInitSystem, IEcsRunSystem
         _filter = world .Filter<TextComponent>()
                         .Inc<SizeComponent>()
                         .Inc<PositionComponent>()
-                        .Inc<EnabledComponent>()
+                        .Exc<DisabledMarker>()
                         .End();
 
         _texts       = world.GetPool<TextComponent>();

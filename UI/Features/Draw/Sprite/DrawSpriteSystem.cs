@@ -6,9 +6,9 @@ namespace EcsUI.Systems;
 public class DrawSpriteSystem : IEcsInitSystem, IEcsRunSystem
 {
     private EcsFilter _filter;
+    private EcsPool<SpriteComponent> _spritePool;
     private EcsPool<SizeComponent> _sizePool;
     private EcsPool<PositionComponent> _positionPool;
-    private EcsPool<SpriteComponent> _spritePool;
     private EcsPool<ColorComponent> _colorPool;
     private EcsPool<ScaleComponent> _scalePool;
 
@@ -20,14 +20,14 @@ public class DrawSpriteSystem : IEcsInitSystem, IEcsRunSystem
         _batch              = systems.GetShared<SpriteBatch>();
 
         _filter     = world.Filter<SpriteComponent>()
-                           .Inc<PositionComponent>()
                            .Inc<SizeComponent>()
-                           .Inc<EnabledComponent>()
+                           .Inc<PositionComponent>()
+                           .Exc<DisabledMarker>()
                            .End();
 
+        _spritePool     = world.GetPool<SpriteComponent>();
         _sizePool       = world.GetPool<SizeComponent>();
         _positionPool   = world.GetPool<PositionComponent>();
-        _spritePool     = world.GetPool<SpriteComponent>();
         _colorPool      = world.GetPool<ColorComponent>();
         _scalePool      = world.GetPool<ScaleComponent>();
     }

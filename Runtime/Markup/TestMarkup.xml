@@ -19,4 +19,36 @@
 			width="300"
 			height="300"/>
 	</container>
+	<!-->button height="100" width="100">
+		<default id="tets">
+			<image
+				sprite="Content\WhiteBox.png"
+				width="100"
+				height="100"/>
+		</default>
+		<hover>
+			<image
+				sprite="Content\WhiteBox.png"
+				position_x="20"
+				width="100"
+				height="100"
+				color="110, 225, 34"/>
+		</hover>
+		<press>
+			<image
+				sprite="Content\WhiteBox.png"
+				position_x="40"
+				width="100"
+				height="100"
+				color="210, 125, 34"/>
+		</press>
+		<lock>
+			<image
+				sprite="Content\WhiteBox.png"
+				position_x="60"
+				width="100"
+				height="100"
+				color="54, 54, 54"/>
+		</lock>
+	</button-->
 </root>

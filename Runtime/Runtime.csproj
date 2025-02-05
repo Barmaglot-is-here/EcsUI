@@ -24,6 +24,9 @@
     <None Update="Content\photo_2024-10-20_19-24-47.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Content\WhiteBox.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Markup\Styles\Style1.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

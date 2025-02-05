@@ -1,11 +1,10 @@
-﻿using Leopotam.EcsLite;
+﻿using EcsUI.Systems;
+using Leopotam.EcsLite;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using EcsUI.Systems;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System;
 
 namespace EcsUI.Runtime;
 
@@ -35,10 +34,15 @@ public class Game1 : Game
 
         _drawSystems = new(_ecsWorld, _spriteBatch);
         _drawSystems.Add(new InitPositionSystem())
+                    .Add(new InitStateSystem())
                     .Add(new DarwTextSystem())
                     .Add(new DrawSpriteSystem())
+                    //.Add(new HoverDetectionSystem())
+                    //.Add(new HoverHandleSystem())
+                    .Add(new TestSystem())
                     .Init();
     }
+
 
     private Dictionary<string, SpriteFont> LoadFonts()
     {
@@ -59,8 +63,6 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        // TODO: Add your initialization logic here
-
         base.Initialize();
     }
 
@@ -69,8 +71,6 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         InitECS();
-
-        // TODO: use this.Content to load your game content here
     }
 
     protected override void Update(GameTime gameTime)
@@ -79,28 +79,28 @@ public class Game1 : Game
             Exit();
 
         if (Keyboard.GetState().IsKeyDown(Keys.D))
-            DisableText();
+            DisableAllText();
         if (Keyboard.GetState().IsKeyDown(Keys.E))
-            EnableText();
+            EnableAllText();
 
         base.Update(gameTime);
     }
 
-    private void DisableText()
+    private void DisableAllText()
     {
         int[] entities = null;
 
         _ecsWorld.GetAllEntities(ref entities);
 
-        var enabledpool = _ecsWorld.GetPool<EnabledComponent>();
-        var textPool = _ecsWorld.GetPool<TextComponent>();
+        var disabledPool    = _ecsWorld.GetPool<DisabledMarker>();
+        var textPool        = _ecsWorld.GetPool<TextComponent>();
 
         foreach (int entity in entities)
         {
             if (!textPool.Has(entity))
                 continue;
 
-            if (!enabledpool.Has(entity))
+            if (disabledPool.Has(entity))
             {
                 Debug.WriteLine("Already disabled");
 
@@ -109,25 +109,25 @@ public class Game1 : Game
 
             ref TextComponent text = ref textPool.Get(entity);
 
-            enabledpool.Del(entity);
+            disabledPool.Add(entity);
         }
     }
 
-    private void EnableText()
+    private void EnableAllText()
     {
         int[] entities = null;
 
         _ecsWorld.GetAllEntities(ref entities);
 
-        var enabledpool = _ecsWorld.GetPool<EnabledComponent>();
-        var textPool = _ecsWorld.GetPool<TextComponent>();
+        var disabledPool    = _ecsWorld.GetPool<DisabledMarker>();
+        var textPool        = _ecsWorld.GetPool<TextComponent>();
 
         foreach (int entity in entities)
         {
             if (!textPool.Has(entity))
                 continue;
 
-            if (enabledpool.Has(entity))
+            if (!disabledPool.Has(entity))
             {
                 Debug.WriteLine("Already enabled");
 
@@ -136,7 +136,7 @@ public class Game1 : Game
 
             ref TextComponent text = ref textPool.Get(entity);
 
-            enabledpool.Add(entity);
+            disabledPool.Del(entity);
         }
     }
 
@@ -145,12 +145,8 @@ public class Game1 : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         _spriteBatch.Begin();
-
         _drawSystems.Run();
-
         _spriteBatch.End();
-
-        // TODO: Add your drawing code here
 
         base.Draw(gameTime);
     }
